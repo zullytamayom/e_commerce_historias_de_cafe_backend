@@ -14,7 +14,7 @@ public class Categories {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categorie")
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "El tipo de tostion es obligatorio")
     @Size(max = 100, message = "El tipo de tostion es demasiado largo")
@@ -37,18 +37,18 @@ public class Categories {
     public Categories() {
     }
 
-    public Categories(Integer id, String toastingType, String regionOrigin, String presentation) {
+    public Categories(Long id, String toastingType, String regionOrigin, String presentation) {
         this.id = id;
         this.toastingType = toastingType;
         this.regionOrigin = regionOrigin;
         this.presentation = presentation;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
