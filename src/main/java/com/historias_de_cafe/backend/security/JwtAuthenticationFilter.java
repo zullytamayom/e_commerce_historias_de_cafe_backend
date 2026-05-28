@@ -53,9 +53,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 System.out.println("DEBUG: Email: " + email + " | Role en Token: " + role);
 
-                Collection<? extends GrantedAuthority> authorities = (role != null) 
-                    ? List.of(new SimpleGrantedAuthority(role)) 
-                    : userDetails.getAuthorities();
+                Collection<? extends GrantedAuthority> authorities;
+                if (role != null) {
+                    // Agregamos tanto "ADMIN" como "ROLE_ADMIN" para máxima compatibilidad
+                    authorities = List.of(
+                        new SimpleGrantedAuthority(role),
+                        new SimpleGrantedAuthority("ROLE_" + role)
+                    );
+                } else {
+                    authorities = userDetails.getAuthorities();
+                }
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails,
