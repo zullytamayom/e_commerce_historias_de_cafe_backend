@@ -67,7 +67,7 @@ public class OrderService {
                 throw new RuntimeException("Not enough stock for product id: " + item.productId());
             }
 
-            BigDecimal lineTotal = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(item.quantityProducts()));
+            BigDecimal lineTotal = product.getPrice().multiply(BigDecimal.valueOf(item.quantityProducts()));
             subtotal = subtotal.add(lineTotal);
             product.setStock(product.getStock() - item.quantityProducts());
 

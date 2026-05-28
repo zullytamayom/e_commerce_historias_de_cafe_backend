@@ -1,18 +1,20 @@
 package com.historias_de_cafe.backend.DTO;
 
+import java.math.BigDecimal;
+
 public class ProductResponseDTO {
 
     private Long idProduct;
     private String name;
     private String description;
-    private Double price;
+    private BigDecimal price;
     private Integer stock;
     private Long categoryId;
     private String categoryName;
     private String imagen;
 
 
-    public ProductResponseDTO(Long idProduct, String name, String description, Double price, Integer stock, Long categoryId, String categoryName, String imagen) {
+    public ProductResponseDTO(Long idProduct, String name, String description, BigDecimal price, Integer stock, Long categoryId, String categoryName, String imagen) {
         this.idProduct = idProduct;
         this.name = name;
         this.description = description;
@@ -35,7 +37,7 @@ public class ProductResponseDTO {
         return description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
