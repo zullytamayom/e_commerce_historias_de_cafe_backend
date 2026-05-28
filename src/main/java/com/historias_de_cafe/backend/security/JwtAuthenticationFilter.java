@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 
 import java.io.IOException;
@@ -50,11 +50,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (jwtService.isTokenValid(token, userDetails)) {
 
                 String role = jwtService.extractClaim(token, claims -> claims.get("role", String.class));
-                
 
-                List<GrantedAuthority> authorities = (role != null) 
-                    ? Collections.singletonList(new SimpleGrantedAuthority(role)) 
-                    : (List<GrantedAuthority>) userDetails.getAuthorities();
+                System.out.println("DEBUG: Email: " + email + " | Role en Token: " + role);
+
+                Collection<? extends GrantedAuthority> authorities = (role != null) 
+                    ? List.of(new SimpleGrantedAuthority(role)) 
+                    : userDetails.getAuthorities();
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails,
