@@ -63,7 +63,7 @@ public class ProductService {
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
         product.setStock(dto.getStock());
-        product.setCategories(category);
+        product.setCategory(category);
 
         return toResponseDto(productRepository.save(product));
     }
@@ -76,7 +76,7 @@ public class ProductService {
     }
 
     private ProductResponseDTO toResponseDto(Product product) {
-        Categories category = product.getCategories();
+        Categories category = product.getCategory();
         return new ProductResponseDTO(
                 product.getId(),
                 product.getName(),
