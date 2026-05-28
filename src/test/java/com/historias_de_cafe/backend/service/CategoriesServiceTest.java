@@ -36,8 +36,8 @@ class CategoriesServiceTest {
 
         List<CategoriesResponseDTO> response = categoriesService.findAll();
 
-        assertEquals(1L, response.size());
-        assertEquals(1L, response.get(0).id());
+        assertEquals(1, response.size());
+        assertEquals(1, response.get(0).id()); // 🌟 Si tu DTO castea a int, el 1 plano es correcto
         assertEquals("Tostado Medio", response.get(0).toastingType());
         assertEquals("Huila", response.get(0).regionOrigin());
         assertEquals("Molido", response.get(0).presentation());
@@ -55,7 +55,7 @@ class CategoriesServiceTest {
 
         CategoriesResponseDTO response = categoriesService.save(request);
 
-        assertEquals(10L, response.id());
+        assertEquals(10, response.id());
         assertEquals("Tostado Claro", response.toastingType());
         assertEquals("Risaralda", response.regionOrigin());
         assertEquals("Grano", response.presentation());
@@ -69,9 +69,10 @@ class CategoriesServiceTest {
         when(categoriesRepository.findById(2L)).thenReturn(Optional.of(existing));
         when(categoriesRepository.save(existing)).thenReturn(existing);
 
-        CategoriesResponseDTO response = categoriesService.update(2, request);
+        // 🌟 CORREGIDO: Se pasa 2L en vez del entero plano 2
+        CategoriesResponseDTO response = categoriesService.update(2L, request);
 
-        assertEquals(2L, response.id());
+        assertEquals(2, response.id());
         assertEquals("Tostado Oscuro", response.toastingType());
         assertEquals("Nariño", response.regionOrigin());
         assertEquals("Grano", response.presentation());

@@ -41,7 +41,8 @@ class ProductServiceTest {
         Categories category = category();
         ProductRequestDTO request = productRequest();
 
-        when(categoriesRepository.findById(1)).thenReturn(Optional.of(category));
+        // 🌟 CORREGIDO: findById recibe 1L
+        when(categoriesRepository.findById(1L)).thenReturn(Optional.of(category));
         when(productRepository.save(any(Product.class))).thenAnswer(invocation -> {
             Product product = invocation.getArgument(0);
             product.setId(10L);
@@ -50,18 +51,20 @@ class ProductServiceTest {
 
         ProductResponseDTO response = productService.create(request);
 
-        assertEquals(10L, response.getIdProduct());
-        assertEquals("Cafe Huila", response.getName());
-        assertEquals(35000.0, response.getPrice());
-        assertEquals(1L, response.getCategoryId());
-        assertEquals("Molido", response.getCategoryName());
-        assertEquals("image.jpg", response.getImagen());
+        // 🌟 CORREGIDO: Ajustado a los nombres del DTO de salida (id, precio en BigDecimal/double, presentation)
+        assertEquals(10L, response.id());
+        assertEquals("Cafe Huila", response.name());
+        assertEquals(0, BigDecimal.valueOf(35000.0).compareTo(response.price()));
+        assertEquals(1L, response.categoryId());
+        assertEquals("Molido", response.categoryPresentation());
+        assertEquals("image.jpg", response.imagen());
     }
 
     @Test
     void createThrowsWhenCategoryDoesNotExist() {
         ProductRequestDTO request = productRequest();
-        when(categoriesRepository.findById(1)).thenReturn(Optional.empty());
+        // 🌟 CORREGIDO: findById recibe 1L
+        when(categoriesRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> productService.create(request));
         verify(productRepository, never()).save(any(Product.class));
@@ -74,27 +77,29 @@ class ProductServiceTest {
         List<ProductResponseDTO> response = productService.getAll();
 
         assertEquals(1, response.size());
-        assertEquals("Cafe Huila", response.get(0).getName());
+        assertEquals("Cafe Huila", response.get(0).name());
     }
 
     @Test
     void updateChangesProductFieldsAndCategory() {
         Product existing = product();
-        Categories category = new Categories(2, "Tostado Oscuro", "Nariño", "Grano");
+        // 🌟 CORREGIDO: Constructor recibe 2L
+        Categories category = new Categories(2L, "Tostado Oscuro", "Nariño", "Grano");
         ProductRequestDTO request = productRequest();
         request.setName("Cafe Narino");
         request.setCategoryId(2L);
         request.setImagen("image.jpg");
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(existing));
-        when(categoriesRepository.findById(2)).thenReturn(Optional.of(category));
+        // 🌟 CORREGIDO: findById recibe 2L
+        when(categoriesRepository.findById(2L)).thenReturn(Optional.of(category));
         when(productRepository.save(existing)).thenReturn(existing);
 
         ProductResponseDTO response = productService.update(1L, request);
 
-        assertEquals("Cafe Narino", response.getName());
-        assertEquals(2L, response.getCategoryId());
-        assertEquals("Grano", response.getCategoryName());
+        assertEquals("Cafe Narino", response.name());
+        assertEquals(2L, response.categoryId());
+        assertEquals("Grano", response.categoryPresentation());
     }
 
     @Test
@@ -139,6 +144,7 @@ class ProductServiceTest {
     }
 
     private Categories category() {
-        return new Categories(1, "Tostado Medio", "Huila", "Molido");
+        // 🌟 CORREGIDO: ID asignado como 1L
+        return new Categories(1L, "Tostado Medio", "Huila", "Molido");
     }
 }
