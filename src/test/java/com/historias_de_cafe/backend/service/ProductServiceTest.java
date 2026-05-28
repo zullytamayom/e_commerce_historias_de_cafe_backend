@@ -131,7 +131,7 @@ class ProductServiceTest {
         product.setDescription("Cafe especial");
         product.setPrice(35000.0);
         product.setStock(12);
-        product.setCategories(category());
+        product.setCategory(category());
         product.setImagen("image.jpg");
         return product;
     }
