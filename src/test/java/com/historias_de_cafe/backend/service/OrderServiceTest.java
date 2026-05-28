@@ -142,7 +142,7 @@ class OrderServiceTest {
         product.setId(1L);
         product.setName("Cafe Huila Especial");
         product.setDescription("Cafe especial de Huila");
-        product.setPrice(35000.0);
+        product.setPrice(BigDecimal.valueOf(35000.0));
         product.setStock(10);
         return product;
     }

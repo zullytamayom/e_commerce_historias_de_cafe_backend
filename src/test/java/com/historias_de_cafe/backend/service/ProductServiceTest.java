@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,7 +119,7 @@ class ProductServiceTest {
         ProductRequestDTO request = new ProductRequestDTO();
         request.setName("Cafe Huila");
         request.setDescription("Cafe especial");
-        request.setPrice(35000.0);
+        request.setPrice(BigDecimal.valueOf(35000.0));
         request.setStock(12);
         request.setCategoryId(1L);
         request.setImagen("image.jpg");
@@ -130,7 +131,7 @@ class ProductServiceTest {
         product.setId(1L);
         product.setName("Cafe Huila");
         product.setDescription("Cafe especial");
-        product.setPrice(35000.0);
+        product.setPrice(BigDecimal.valueOf(35000.0));
         product.setStock(12);
         product.setCategory(category());
         product.setImagen("image.jpg");
