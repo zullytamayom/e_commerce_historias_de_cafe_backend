@@ -1,5 +1,6 @@
 package com.historias_de_cafe.backend.DTO;
 
+import com.historias_de_cafe.backend.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -16,6 +17,7 @@ public class RegisterRequestDTO {
     @NotBlank(message = "La contraseña no puede estar vacía")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
     private String password;
+    private Role role;
 
     public RegisterRequestDTO() {
     }
@@ -42,5 +44,13 @@ public class RegisterRequestDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
