@@ -24,6 +24,9 @@ public class ProductService {
     }
 
     public ProductResponseDTO create(ProductRequestDTO dto) {
+        if (dto.getCategoryId() == null) {
+            throw new RuntimeException("El ID de la categoría es obligatorio");
+        }
         Categories category = categoriesRepository.findById(dto.getCategoryId().intValue())
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + dto.getCategoryId()));
 
@@ -54,6 +57,9 @@ public class ProductService {
     }
 
     public ProductResponseDTO update(Long id, ProductRequestDTO dto) {
+        if (dto.getCategoryId() == null) {
+            throw new RuntimeException("El ID de la categoría es obligatorio");
+        }
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
         Categories category = categoriesRepository.findById(dto.getCategoryId().intValue())
@@ -64,6 +70,7 @@ public class ProductService {
         product.setPrice(dto.getPrice());
         product.setStock(dto.getStock());
         product.setCategory(category);
+        product.setImagen(dto.getImagen());
 
         return toResponseDto(productRepository.save(product));
     }

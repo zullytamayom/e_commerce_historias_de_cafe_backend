@@ -45,7 +45,7 @@ public class Order {
         this.total = total;
         this.orderDate = orderDate;
         this.user = user;
-        this.details = details;
+        setDetails(details);
     }
 
     public Long getId() {

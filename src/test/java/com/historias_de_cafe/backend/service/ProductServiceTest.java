@@ -83,6 +83,7 @@ class ProductServiceTest {
         ProductRequestDTO request = productRequest();
         request.setName("Cafe Narino");
         request.setCategoryId(2L);
+        request.setImagen("image.jpg");
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(existing));
         when(categoriesRepository.findById(2)).thenReturn(Optional.of(category));
