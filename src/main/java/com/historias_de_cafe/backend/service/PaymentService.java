@@ -63,10 +63,12 @@ public class PaymentService {
                     .map(this::toPreferenceItemRequest)
                     .toList();
 
+            // Nota: En producción, estas URLs deberían apuntar a tu dominio de Render o al Frontend
+            String baseUrl = "https://e-commerce-historias-de-cafe-1.onrender.com"; // URL de tu frontend
             PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                    .success("http://localhost:8080/payments/success")
-                    .pending("http://localhost:8080/payments/pending")
-                    .failure("http://localhost:8080/payments/failure")
+                    .success(baseUrl + "/pages/cart/success.html")
+                    .pending(baseUrl + "/pages/cart/pending.html")
+                    .failure(baseUrl + "/pages/cart/failure.html")
                     .build();
 
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
@@ -131,7 +133,7 @@ public class PaymentService {
     }
 
     private PreferenceItemRequest toPreferenceItemRequest(OrderDetail detail) {
-        BigDecimal unitPrice = BigDecimal.valueOf(detail.getProduct().getPrice());
+        BigDecimal unitPrice = detail.getProduct().getPrice();
 
         return PreferenceItemRequest.builder()
                 .title(detail.getProduct().getName())
