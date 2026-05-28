@@ -32,7 +32,7 @@ public class ProductService {
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
         product.setStock(dto.getStock());
-        product.setCategories(category);
+        product.setCategory(category);
         product.setImagen(dto.getImagen());
 
         return toResponseDto(productRepository.save(product));
