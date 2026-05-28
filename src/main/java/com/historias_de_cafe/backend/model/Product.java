@@ -43,7 +43,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categorie_id", nullable = false)
-    private Categories categories;
+    private Categories category;
 
     @Column
     private String imagen;
@@ -61,13 +61,14 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double price, Integer stock, Categories categories,String imagen ) {
+    public Product(Long id, String name, String description, Double price, Integer stock, Categories category, String imagen) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
-        this.categories = categories;
+        this.category = category;
+        this.imagen = imagen;
     }
 
     public Long getId() {
@@ -110,12 +111,12 @@ public class Product {
         this.stock = stock;
     }
 
-    public Categories getCategories() {
-        return categories;
+    public Categories getCategory() {
+        return category;
     }
 
-    public void setCategories(Categories categories) {
-        this.categories = categories;
+    public void setCategory(Categories category) {
+        this.category = category;
     }
 
     public String getImagen() {

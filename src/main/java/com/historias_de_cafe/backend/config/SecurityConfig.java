@@ -44,7 +44,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/", "/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/products", "/products/**", "/categories", "/categories/**", "/users", "/users/**", "/orders", "/orders/**", "/payments", "/payments/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products", "/products/**", "/categories", "/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users/**", "/orders/**", "/payments/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/products", "/products/**", "/categories", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/products", "/products/**", "/categories", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/products", "/products/**", "/categories", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")

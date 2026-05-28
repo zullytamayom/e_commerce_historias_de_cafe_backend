@@ -1,13 +1,11 @@
 package com.historias_de_cafe.backend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -32,6 +30,9 @@ public class Categories {
     @Size(max = 100, message = "La presentacion es demasiado larga")
     @Column(nullable = false)
     private String presentation;
+    @OneToMany(mappedBy = "category")
+    @JsonIgnore 
+    private List<Product> products;
 
     public Categories() {
     }
@@ -73,5 +74,13 @@ public class Categories {
 
     public void setPresentation(String presentation) {
         this.presentation = presentation;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
