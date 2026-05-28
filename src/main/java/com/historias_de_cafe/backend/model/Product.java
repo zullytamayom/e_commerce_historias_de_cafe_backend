@@ -14,6 +14,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -34,7 +36,7 @@ public class Product {
     @NotNull(message = "El precio es obligatorio")
     @Min(value = 0, message = "El precio no puede ser negativo")
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     @NotNull(message = "El stock es obligatorio")
     @Min(value = 0, message = "El stock no puede ser negativo")
@@ -61,8 +63,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double price, Integer stock, Categories category, String imagen) {
-        this.id = id;
+       public Product(Long id, String name, String description, BigDecimal price, Integer stock, Categories categories,String imagen ) {    this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -95,11 +96,11 @@ public class Product {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

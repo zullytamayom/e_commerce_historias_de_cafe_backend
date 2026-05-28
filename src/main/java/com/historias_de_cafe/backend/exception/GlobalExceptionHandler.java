@@ -13,8 +13,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGlobalException(Exception ex) {
+        // Logueamos el error completo para verlo en el dashboard de Render
+        ex.printStackTrace(); 
+        
         Map<String, String> error = new HashMap<>();
-        error.put("error", "Internal Server Error");
+        error.put("error", ex.getClass().getSimpleName());
         error.put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
