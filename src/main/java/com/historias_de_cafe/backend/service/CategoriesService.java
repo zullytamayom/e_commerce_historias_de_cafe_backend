@@ -24,7 +24,7 @@ public class CategoriesService {
                 .toList();
     }
 
-    public CategoriesResponseDTO findById(Integer id) {
+    public CategoriesResponseDTO findById(Long id) {
         Categories category = categoriesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
         return toResponseDTO(category);
@@ -38,7 +38,7 @@ public class CategoriesService {
         return toResponseDTO(categoriesRepository.save(category));
     }
 
-    public CategoriesResponseDTO update(Integer id, CategoriesRequestDTO dto) {
+    public CategoriesResponseDTO update(Long id, CategoriesRequestDTO dto) {
         Categories category = categoriesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
 
@@ -48,7 +48,7 @@ public class CategoriesService {
         return toResponseDTO(categoriesRepository.save(category));
     }
 
-    public void delete(Integer id) {
+    public void delete(Long id) {
         if (!categoriesRepository.existsById(id)) {
             throw new RuntimeException("Category not found with id: " + id);
         }
