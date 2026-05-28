@@ -45,11 +45,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/", "/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/products/**", "/products", "/categories/**", "/categories", "/users/**", "/users", "/orders/**", "/orders", "/payments/**", "/payments").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/products/**", "/categories/**", "/users/**", "/orders/**", "/payments/**").hasAnyAuthority("ADMIN", "ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/products/**", "/products", "/categories/**", "/categories", "/users/**", "/users").hasAnyAuthority("ADMIN", "ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/orders/**", "/orders", "/payments/**", "/payments").hasAnyAuthority("ADMIN", "ROLE_ADMIN", "CLIENT", "ROLE_CLIENT")
-                        .requestMatchers(HttpMethod.PATCH, "/products/**", "/categories/**", "/users/**", "/orders/**", "/payments/**").hasAnyAuthority("ADMIN", "ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/products/**", "/categories/**", "/users/**", "/orders/**", "/payments/**").hasAnyAuthority("ADMIN", "ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/products", "/products/**", "/categories", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/products/**", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/products/**", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/products/**", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/orders/**", "/payments/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN", "ROLE_CLIENT", "CLIENT")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -61,9 +61,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // En producción, cambia "*" por la URL de tu frontend
+        configuration.setAllowedOriginPatterns(Arrays.asList("*")); // Más flexible que setAllowedOrigins("*")
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+        configuration.setAllowedHeaders(Arrays.asList("*")); // Permite cualquier cabecera (incluida Authorization)
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
         configuration.setAllowCredentials(false); // Debe ser false si usas "*" en AllowedOrigins
         
