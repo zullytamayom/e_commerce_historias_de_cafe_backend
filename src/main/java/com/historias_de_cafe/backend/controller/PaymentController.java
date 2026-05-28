@@ -5,6 +5,7 @@ import com.historias_de_cafe.backend.DTO.PaymentResponseDto;
 import com.historias_de_cafe.backend.service.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,6 +27,7 @@ public class PaymentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     public ResponseEntity<PaymentResponseDto> createPaymentPreference(@RequestBody PaymentRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.createPaymentPreference(dto));
     }

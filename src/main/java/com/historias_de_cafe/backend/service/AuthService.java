@@ -47,7 +47,8 @@ public class AuthService {
         user.setName(request.getName().trim());
         user.setEmail(email);
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.ADMIN);
+        // Si el request trae un rol, usarlo; si no, por defecto CLIENT
+        user.setRole(request.getRole() != null ? request.getRole() : Role.CLIENT);
         user.setCreationDate(LocalDateTime.now());
         user.setStateActive(true);
 

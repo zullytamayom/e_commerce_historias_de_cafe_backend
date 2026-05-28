@@ -5,6 +5,7 @@ import com.historias_de_cafe.backend.DTO.OrderResponseDto;
 import com.historias_de_cafe.backend.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class OrderController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     public ResponseEntity<OrderResponseDto> create(@RequestBody OrderRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderService.create(dto));
     }

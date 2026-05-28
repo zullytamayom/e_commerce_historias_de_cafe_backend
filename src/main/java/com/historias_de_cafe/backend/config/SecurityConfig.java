@@ -43,13 +43,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/", "/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/products/**", "/products", "/categories/**", "/categories", "/users/**", "/users", "/orders/**", "/orders", "/payments/**", "/payments").permitAll()
+                        .requestMatchers("/", "/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/error").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products", "/products/**", "/categories", "/categories/**", "/users", "/users/**", "/orders", "/orders/**", "/payments", "/payments/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/products", "/products/**", "/categories", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/products", "/products/**", "/categories", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/products", "/products/**", "/categories", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/products", "/products/**", "/categories", "/categories/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/orders/**", "/payments/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN", "ROLE_CLIENT", "CLIENT")
+                        .requestMatchers(HttpMethod.POST, "/orders", "/orders/**", "/payments", "/payments/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN", "ROLE_CLIENT", "CLIENT", "ROLE_CLIENTE", "CLIENTE")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -61,11 +61,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("*")); // Más flexible que setAllowedOrigins("*")
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*")); // Permite cualquier cabecera (incluida Authorization)
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
-        configuration.setAllowCredentials(false); // Debe ser false si usas "*" en AllowedOrigins
+        configuration.setAllowCredentials(false);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
