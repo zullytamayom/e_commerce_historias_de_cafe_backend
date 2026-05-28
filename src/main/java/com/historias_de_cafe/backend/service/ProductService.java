@@ -27,7 +27,8 @@ public class ProductService {
         if (dto.getCategoryId() == null) {
             throw new RuntimeException("El ID de la categoría es obligatorio");
         }
-        Categories category = categoriesRepository.findById(dto.getCategoryId().intValue())
+        // 🌟 CORREGIDO: Se envía el Long directo (dto.getCategoryId()) sin .intValue()
+        Categories category = categoriesRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + dto.getCategoryId()));
 
         Product product = new Product();
@@ -62,7 +63,9 @@ public class ProductService {
         }
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-        Categories category = categoriesRepository.findById(dto.getCategoryId().intValue())
+
+        // 🌟 CORREGIDO: Se envía el Long directo (dto.getCategoryId()) sin .intValue()
+        Categories category = categoriesRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + dto.getCategoryId()));
 
         product.setName(dto.getName());

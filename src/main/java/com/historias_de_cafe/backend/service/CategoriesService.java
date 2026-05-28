@@ -57,7 +57,7 @@ public class CategoriesService {
 
     private CategoriesResponseDTO toResponseDTO(Categories category) {
         return new CategoriesResponseDTO(
-                category.getId(),
+                category.getId() != null ? category.getId().intValue() : null,
                 category.getToastingType(),
                 category.getRegionOrigin(),
                 category.getPresentation()
