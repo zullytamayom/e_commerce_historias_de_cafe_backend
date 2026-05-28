@@ -31,13 +31,13 @@ class CategoriesServiceTest {
 
     @Test
     void findAllReturnsCategoryDtos() {
-        Categories category = new Categories(1, "Tostado Medio", "Huila", "Molido");
+        Categories category = new Categories(1L, "Tostado Medio", "Huila", "Molido");
         when(categoriesRepository.findAll()).thenReturn(List.of(category));
 
         List<CategoriesResponseDTO> response = categoriesService.findAll();
 
-        assertEquals(1, response.size());
-        assertEquals(1, response.get(0).id());
+        assertEquals(1L, response.size());
+        assertEquals(1L, response.get(0).id());
         assertEquals("Tostado Medio", response.get(0).toastingType());
         assertEquals("Huila", response.get(0).regionOrigin());
         assertEquals("Molido", response.get(0).presentation());
@@ -49,13 +49,13 @@ class CategoriesServiceTest {
 
         when(categoriesRepository.save(any(Categories.class))).thenAnswer(invocation -> {
             Categories category = invocation.getArgument(0);
-            category.setId(10);
+            category.setId(10L);
             return category;
         });
 
         CategoriesResponseDTO response = categoriesService.save(request);
 
-        assertEquals(10, response.id());
+        assertEquals(10L, response.id());
         assertEquals("Tostado Claro", response.toastingType());
         assertEquals("Risaralda", response.regionOrigin());
         assertEquals("Grano", response.presentation());
@@ -63,15 +63,15 @@ class CategoriesServiceTest {
 
     @Test
     void updateChangesExistingCategory() {
-        Categories existing = new Categories(2, "Tostado Medio", "Antioquia", "Molido");
+        Categories existing = new Categories(2L, "Tostado Medio", "Antioquia", "Molido");
         CategoriesRequestDTO request = new CategoriesRequestDTO("Tostado Oscuro", "Nariño", "Grano");
 
-        when(categoriesRepository.findById(2)).thenReturn(Optional.of(existing));
+        when(categoriesRepository.findById(2L)).thenReturn(Optional.of(existing));
         when(categoriesRepository.save(existing)).thenReturn(existing);
 
         CategoriesResponseDTO response = categoriesService.update(2, request);
 
-        assertEquals(2, response.id());
+        assertEquals(2L, response.id());
         assertEquals("Tostado Oscuro", response.toastingType());
         assertEquals("Nariño", response.regionOrigin());
         assertEquals("Grano", response.presentation());
@@ -79,16 +79,16 @@ class CategoriesServiceTest {
 
     @Test
     void findByIdThrowsWhenCategoryDoesNotExist() {
-        when(categoriesRepository.findById(99)).thenReturn(Optional.empty());
+        when(categoriesRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> categoriesService.findById(99));
+        assertThrows(RuntimeException.class, () -> categoriesService.findById(99L));
     }
 
     @Test
     void deleteThrowsWhenCategoryDoesNotExist() {
-        when(categoriesRepository.existsById(99)).thenReturn(false);
+        when(categoriesRepository.existsById(99L)).thenReturn(false);
 
-        assertThrows(RuntimeException.class, () -> categoriesService.delete(99));
-        verify(categoriesRepository, never()).deleteById(99);
+        assertThrows(RuntimeException.class, () -> categoriesService.delete(99L));
+        verify(categoriesRepository, never()).deleteById(99L);
     }
 }

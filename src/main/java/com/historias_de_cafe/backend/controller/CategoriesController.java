@@ -26,7 +26,7 @@ public class CategoriesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriesResponseDTO> findById(@PathVariable Integer id) {
+    public ResponseEntity<CategoriesResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(categoriesService.findById(id));
     }
 
@@ -36,13 +36,13 @@ public class CategoriesController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriesResponseDTO> update(@PathVariable Integer id,
+    public ResponseEntity<CategoriesResponseDTO> update(@PathVariable Long id,
                                                         @Valid @RequestBody CategoriesRequestDTO dto) {
         return ResponseEntity.ok(categoriesService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         categoriesService.delete(id);
         return ResponseEntity.noContent().build();
     }
