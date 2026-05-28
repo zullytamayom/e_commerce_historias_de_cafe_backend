@@ -41,7 +41,6 @@ class ProductServiceTest {
         Categories category = category();
         ProductRequestDTO request = productRequest();
 
-        // 🌟 CORREGIDO: findById recibe 1L
         when(categoriesRepository.findById(1L)).thenReturn(Optional.of(category));
         when(productRepository.save(any(Product.class))).thenAnswer(invocation -> {
             Product product = invocation.getArgument(0);
@@ -51,19 +50,18 @@ class ProductServiceTest {
 
         ProductResponseDTO response = productService.create(request);
 
-        // 🌟 CORREGIDO: Ajustado a los nombres del DTO de salida (id, precio en BigDecimal/double, presentation)
-        assertEquals(10L, response.id());
-        assertEquals("Cafe Huila", response.name());
-        assertEquals(0, BigDecimal.valueOf(35000.0).compareTo(response.price()));
-        assertEquals(1L, response.categoryId());
-        assertEquals("Molido", response.categoryPresentation());
-        assertEquals("image.jpg", response.imagen());
+        // 🌟 CORREGIDO: Uso estricto de getters tradicionales estilo JavaBean
+        assertEquals(10L, response.getIdProduct());
+        assertEquals("Cafe Huila", response.getName());
+        assertEquals(0, BigDecimal.valueOf(35000.0).compareTo(response.getPrice()));
+        assertEquals(1L, response.getCategoryId());
+        assertEquals("Molido", response.getCategoryName());
+        assertEquals("image.jpg", response.getImagen());
     }
 
     @Test
     void createThrowsWhenCategoryDoesNotExist() {
         ProductRequestDTO request = productRequest();
-        // 🌟 CORREGIDO: findById recibe 1L
         when(categoriesRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> productService.create(request));
@@ -77,13 +75,12 @@ class ProductServiceTest {
         List<ProductResponseDTO> response = productService.getAll();
 
         assertEquals(1, response.size());
-        assertEquals("Cafe Huila", response.get(0).name());
+        assertEquals("Cafe Huila", response.get(0).getName()); // 🌟 CORREGIDO: .getName()
     }
 
     @Test
     void updateChangesProductFieldsAndCategory() {
         Product existing = product();
-        // 🌟 CORREGIDO: Constructor recibe 2L
         Categories category = new Categories(2L, "Tostado Oscuro", "Nariño", "Grano");
         ProductRequestDTO request = productRequest();
         request.setName("Cafe Narino");
@@ -91,15 +88,15 @@ class ProductServiceTest {
         request.setImagen("image.jpg");
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(existing));
-        // 🌟 CORREGIDO: findById recibe 2L
         when(categoriesRepository.findById(2L)).thenReturn(Optional.of(category));
         when(productRepository.save(existing)).thenReturn(existing);
 
         ProductResponseDTO response = productService.update(1L, request);
 
-        assertEquals("Cafe Narino", response.name());
-        assertEquals(2L, response.categoryId());
-        assertEquals("Grano", response.categoryPresentation());
+        // 🌟 CORREGIDO: Uso de getters de estilo tradicional
+        assertEquals("Cafe Narino", response.getName());
+        assertEquals(2L, response.getCategoryId());
+        assertEquals("Grano", response.getCategoryName());
     }
 
     @Test
@@ -144,7 +141,6 @@ class ProductServiceTest {
     }
 
     private Categories category() {
-        // 🌟 CORREGIDO: ID asignado como 1L
         return new Categories(1L, "Tostado Medio", "Huila", "Molido");
     }
 }
